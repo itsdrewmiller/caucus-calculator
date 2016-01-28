@@ -41,24 +41,41 @@
 		}
 
 		while (totalDelegates < delegates) {
-			var maxIndices = [];
+			var minIndices = [];
 			var minError = Infinity;
 			for(var index=0;index<roundingError.length;index++) {
 				if (roundingError[index] < minError) {
-					maxIndices = [index];
+					minIndices = [index];
 					minError = roundingError[index];
 				} else if (roundingError[index] === minError) {
-					maxIndices.push(index);
+					minIndices.push(index);
 				}
 			}
-			for(var addIndex=0;addIndex<maxIndices.length;addIndex++) {
+			for(var addIndex=0;addIndex<minIndices.length;addIndex++) {
 				totalDelegates+=1;
-				roundingError[maxIndices[addIndex]] += 1;
-				assignedDelegates[maxIndices[addIndex]] += 1;				
+				roundingError[minIndices[addIndex]] += 1;
+				assignedDelegates[minIndices[addIndex]] += 1;				
 			}
 		}
 
-		// Need to figure out what to do about over-assigning; deterministic coin flip?
+		Math.seedrandom(attendeesPerCandidate.toString() + delegates.toString() + attendees.toString());
+		while (totalDelegates > delegates) {
+			var maxIndices = [];
+			var maxError = -Infinity;
+			for(var index=0;index<roundingError.length;index++) {
+				if (roundingError[index] > maxError) {
+					maxIndices = [index];
+					maxError = roundingError[index];
+				} else if (roundingError[index] === maxError) {
+					maxIndices.push(index);
+				}
+			}
+
+			var removeIndex = Math.floor(Math.random() * maxIndices.length);
+			totalDelegates-=1;
+			roundingError[maxIndices[removeIndex]] -= 1;
+			assignedDelegates[maxIndices[removeIndex]] -= 1;				
+		}
 
 		return assignedDelegates;
 
