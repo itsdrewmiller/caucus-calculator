@@ -15,21 +15,14 @@
 		}
 		var viability = Math.ceil(threshold * attendees);
 
-		var virtualAttendance = 0;
-
-		for (var index=0;index<attendeesPerCandidate.length;index++) {
-			if (attendeesPerCandidate[index] >= viability) {
-				virtualAttendance += attendeesPerCandidate[index];
-			} else {
-			}
-		}
-
 		var totalDelegates = 0;
 		var assignedDelegates = [];
 		var roundingError = [];
+
+		// First let's round
 		for (var index=0;index<attendeesPerCandidate.length;index++) {
 			if (attendeesPerCandidate[index] >= viability) {
-				var unroundedDelegatesWon = attendeesPerCandidate[index]/virtualAttendance*delegates;
+				var unroundedDelegatesWon = attendeesPerCandidate[index]/attendees*delegates;
 				var delegatesWon = Math.round(unroundedDelegatesWon);
 				assignedDelegates.push(delegatesWon);
 				totalDelegates += delegatesWon;
@@ -40,6 +33,8 @@
 			}
 		}
 
+		// If we needed to round down, let's find where to add
+		// Add multiple at once if there are ties - we can flip coins later
 		while (totalDelegates < delegates) {
 			var minIndices = [];
 			var minError = Infinity;
@@ -58,6 +53,7 @@
 			}
 		}
 
+		// Make sure we are flipping coins consistently given the components
 		Math.seedrandom(attendeesPerCandidate.toString() + delegates.toString() + attendees.toString());
 		while (totalDelegates > delegates) {
 			var maxIndices = [];
