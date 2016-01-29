@@ -1,4 +1,5 @@
 (function(app) {
+	ng.core.enableProdMode();
 	app.CaucusCalculator =
 		ng.core.Component({
 			selector: 'caucus-calculator',
@@ -74,7 +75,7 @@
 				};
 
 				var calcDelegates = function() {
-					return app.calcDelegates(that.delegates, that.attendees, 
+					return app.calcDelegates(parseInt(that.delegates), parseInt(that.attendees), 
 						[
 							parseInt(that.clinton),
 							parseInt(that.omalley),
