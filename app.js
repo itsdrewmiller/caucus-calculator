@@ -3,52 +3,57 @@
 		ng.core.Component({
 			selector: 'caucus-calculator',
 			template: `
-				<div class="row">
-					<label class="col-sm-2" for="delegates">Delegates</label>
-					<div class="col-sm-2">
-						<input type="phone" id="delegates" [(ngModel)]="delegates" />
+				<div class="row form-group">
+					<div class="col-sm-9">
+						<h2>Precinct Results Calculator</h2>
 					</div>
 				</div>
-				<div class="row">
-					<label class="col-sm-2" for="attendees">Attendees</label>
-					<div class="col-sm-2">
-						<input type="phone" id="attendees" [(ngModel)]="attendees" />
+				<div class="row form-group">
+					<label class="col-sm-3 form-control-label" for="delegates">Total Delegates</label>
+					<div class="col-sm-3">
+						<input class="form-control" type="phone" id="delegates" [(ngModel)]="delegates" />
 					</div>
 				</div>
-				<div class="row">
-					<label class="col-sm-2" for="clinton">Clinton</label>
-					<div class="col-sm-2">
-						<input type="phone" id="clinton" [(ngModel)]="clinton" />
-					</div>
-					<div class="col-sm-2">
-						<span>{{clintonDelegates()}}</span>
+				<div class="row form-group">
+					<label class="col-sm-3 form-control-label" for="attendees">All Attendees</label>
+					<div class="col-sm-3">
+						<input class="form-control" type="phone" id="attendees" [(ngModel)]="attendees" />
 					</div>
 				</div>
-				<div class="row">
-					<label class="col-sm-2" for="omalley">O&#39;Malley</label>
-					<div class="col-sm-2">
-						<input type="phone" id="omalley" [(ngModel)]="omalley" />
+				<div class="row form-group">
+					<label class="col-sm-3 form-control-label" for="clinton">Clinton Preference Group</label>
+					<div class="col-sm-3">
+						<input class="form-control" type="phone" id="clinton" [(ngModel)]="clinton" />
 					</div>
-					<div class="col-sm-2">
-						<span>{{omalleyDelegates()}}</span>
-					</div>
-				</div>
-				<div class="row">
-					<label class="col-sm-2" for="sanders">Sanders</label>
-					<div class="col-sm-2" >
-						<input type="phone" id="sanders" [(ngModel)]="sanders" />
-					</div>
-					<div class="col-sm-2" >
-						<span>{{sandersDelegates()}}</span>
+					<div class="col-sm-3">
+						<span>{{clintonDelegates()}} Delegates earned</span>
 					</div>
 				</div>
-				<div class="row">
-					<label class="col-sm-2" for="uncommitted">Uncommitted</label>
-					<div class="col-sm-2">
+				<div class="row form-group">
+					<label class="col-sm-3 form-control-label" for="omalley">O&#39;Malley Preference Group</label>
+					<div class="col-sm-3">
+						<input class="form-control" type="phone" id="omalley" [(ngModel)]="omalley" />
+					</div>
+					<div class="col-sm-3">
+						<span>{{omalleyDelegates()}} Delegates earned</span>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-3 form-control-label" for="sanders">Sanders Preference Group</label>
+					<div class="col-sm-3" >
+						<input class="form-control" type="phone" id="sanders" [(ngModel)]="sanders" />
+					</div>
+					<div class="col-sm-3" >
+						<span>{{sandersDelegates()}} Delegates earned</span>
+					</div>
+				</div>
+				<div class="row form-group">
+					<label class="col-sm-3 form-control-label" for="uncommitted">Uncommitted Preference Group</label>
+					<div class="col-sm-3">
 						<span>{{uncommitted()}}</span>
 					</div>
 					<div>
-						<span class="col-sm-2">{{uncommittedDelegates()}}</span>
+						<span class="col-sm-3">{{uncommittedDelegates()}} Delegates earned</span>
 					</div>
 				</div>
 			`

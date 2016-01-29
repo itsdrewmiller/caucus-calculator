@@ -2,6 +2,10 @@
 
 	var calcDelegates = function(delegates, attendees, attendeesPerCandidate) {
 
+		if (!attendees || !delegates) {
+			return new Array(attendeesPerCandidate.length).fill(0);
+		}
+
 		if (delegates === 1) {
 			return mapPluralityWinner(attendeesPerCandidate);
 		}
@@ -23,7 +27,7 @@
 		for (var index=0;index<attendeesPerCandidate.length;index++) {
 			if (attendeesPerCandidate[index] >= viability) {
 				var unroundedDelegatesWon = attendeesPerCandidate[index]/attendees*delegates;
-				var delegatesWon = Math.round(unroundedDelegatesWon);
+				var delegatesWon = Math.min(1,Math.round(unroundedDelegatesWon));
 				assignedDelegates.push(delegatesWon);
 				totalDelegates += delegatesWon;
 				roundingError.push(delegatesWon - unroundedDelegatesWon);
@@ -35,14 +39,15 @@
 
 		// If we needed to round down, let's find where to add
 		// Add multiple at once if there are ties - we can flip coins later
+		// Only add to viable groups
 		while (totalDelegates < delegates) {
 			var minIndices = [];
 			var minError = Infinity;
 			for(var index=0;index<roundingError.length;index++) {
-				if (roundingError[index] < minError) {
+				if (roundingError[index] < minError && assignedDelegates[index] > 0) {
 					minIndices = [index];
 					minError = roundingError[index];
-				} else if (roundingError[index] === minError) {
+				} else if (roundingError[index] === minError && assignedDelegates[index] > 0) {
 					minIndices.push(index);
 				}
 			}
@@ -55,23 +60,51 @@
 
 		// Make sure we are flipping coins consistently given the components
 		Math.seedrandom(attendeesPerCandidate.toString() + delegates.toString() + attendees.toString());
-		while (totalDelegates > delegates) {
+		
+		// First we need to reduce down to a minimum of one delegate per viable candidate
+		var findDelegateRemovalIndex = function(minDelegates) {
+
 			var maxIndices = [];
 			var maxError = -Infinity;
+
 			for(var index=0;index<roundingError.length;index++) {
-				if (roundingError[index] > maxError) {
+				if (roundingError[index] > maxError && assignedDelegates[index] > minDelegates) {
 					maxIndices = [index];
 					maxError = roundingError[index];
-				} else if (roundingError[index] === maxError) {
+				} else if (roundingError[index] === maxError && assignedDelegates[index] > minDelegates) {
 					maxIndices.push(index);
 				}
 			}
-
 			var removeIndex = Math.floor(Math.random() * maxIndices.length);
-			totalDelegates-=1;
-			roundingError[maxIndices[removeIndex]] -= 1;
-			assignedDelegates[maxIndices[removeIndex]] -= 1;				
+			return maxIndices[removeIndex];
 		}
+
+		var hasMinDelegates = function(minDelegates) {
+			for(var index=0;index<roundingError.length;index++) {
+				if (assignedDelegates[index] >= minDelegates) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		while (totalDelegates > delegates && hasMinDelegates(2)) {
+			var removalIndex = findDelegateRemovalIndex(1);
+			totalDelegates-=1;
+			roundingError[removalIndex] -= 1;
+			assignedDelegates[removalIndex] -= 1;				
+		}
+
+		while (totalDelegates > delegates) {
+			var removalIndex = findDelegateRemovalIndex(0);
+			totalDelegates-=1;
+			roundingError[removalIndex] -= 1;
+			assignedDelegates[removalIndex] -= 1;				
+		}
+
+		// Then we need to take away delegates from viable candidates
+		//   This may involve randomly breaking a tie
+
 
 		return assignedDelegates;
 
