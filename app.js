@@ -19,6 +19,9 @@
 				'	<div class="col-sm-3">' +
 				'		<input class="form-control" type="phone" id="attendees" [(ngModel)]="attendees" />' +
 				'	</div>' +
+				'	<div class="col-sm-3">' +
+				'		<span>{{viability()}} needed for viability</span>' +
+				'	</div>' +
 				'</div>' +
 				'<div class="row form-group">' +
 				'	<label class="col-sm-3 form-control-label" for="clinton">Clinton Preference Group</label>' +
@@ -96,6 +99,10 @@
 
 				that.uncommittedDelegates = function() {
 					return calcDelegates()[3];
+				}
+
+				that.viability = function() {
+					return app.calcViability(parseInt(that.delegates), parseInt(that.attendees));
 				}
 			}
 		});

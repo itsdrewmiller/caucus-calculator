@@ -2,22 +2,15 @@
 
 	var calcDelegates = function(delegates, attendees, attendeesPerCandidate) {
 
-		if (!attendees || !delegates) {
+		if (!attendees || !delegates || delegates < 1 || attendees < 1) {
 			return new Array(attendeesPerCandidate.length).fill(0);
 		}
 
 		if (delegates === 1) {
 			return mapPluralityWinner(attendeesPerCandidate);
 		}
-		
-		if (delegates === 2) {
-			threshold = .25;
-		} else if (delegates === 3) {
-			threshold = 1/6;
-		} else {
-		var threshold = .15;				
-		}
-		var viability = Math.ceil(threshold * attendees);
+
+		var viability = calcViability(delegates,attendees);
 
 		var totalDelegates = 0;
 		var assignedDelegates = [];
@@ -110,6 +103,20 @@
 
 	}
 
+	var calcViability = function(delegates, attendees) {
+
+		if (delegates === 1) {
+			threshold = .5;
+		} else if (delegates === 2) {
+			threshold = .25;
+		} else if (delegates === 3) {
+			threshold = 1/6;
+		} else {
+		var threshold = .15;
+		}
+		return Math.ceil(threshold * attendees);
+	}
+
 	var mapPluralityWinner = function(attendeesPerCandidate) {
 		var maxIndex = -1;
 		var maxAmount = -Infinity;
@@ -130,6 +137,7 @@
 	};
 
 	app.calcDelegates = calcDelegates;
+	app.calcViability = calcViability;
 
 })(window.app || (window.app = {}));
 
