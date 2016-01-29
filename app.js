@@ -3,52 +3,52 @@
 		ng.core.Component({
 			selector: 'caucus-calculator',
 			template: `
-				<div>
-					<label for="delegates">Delegates</label>
-					<div>
+				<div class="row">
+					<label class="col-sm-2" for="delegates">Delegates</label>
+					<div class="col-sm-2">
 						<input type="phone" id="delegates" [(ngModel)]="delegates" />
 					</div>
 				</div>
-				<div>
-					<label for="attendees">Attendees</label>
-					<div>
+				<div class="row">
+					<label class="col-sm-2" for="attendees">Attendees</label>
+					<div class="col-sm-2">
 						<input type="phone" id="attendees" [(ngModel)]="attendees" />
 					</div>
 				</div>
-				<div>
-					<label for="clinton">Clinton</label>
-					<div>
+				<div class="row">
+					<label class="col-sm-2" for="clinton">Clinton</label>
+					<div class="col-sm-2">
 						<input type="phone" id="clinton" [(ngModel)]="clinton" />
 					</div>
-					<div>
+					<div class="col-sm-2">
 						<span>{{clintonDelegates()}}</span>
 					</div>
 				</div>
-				<div>
-					<label for="omalley">O&#39;Malley</label>
-					<div>
+				<div class="row">
+					<label class="col-sm-2" for="omalley">O&#39;Malley</label>
+					<div class="col-sm-2">
 						<input type="phone" id="omalley" [(ngModel)]="omalley" />
 					</div>
-					<div>
+					<div class="col-sm-2">
 						<span>{{omalleyDelegates()}}</span>
 					</div>
 				</div>
-				<div>
-					<label for="sanders">Sanders</label>
-					<div>
+				<div class="row">
+					<label class="col-sm-2" for="sanders">Sanders</label>
+					<div class="col-sm-2" >
 						<input type="phone" id="sanders" [(ngModel)]="sanders" />
 					</div>
-					<div>
+					<div class="col-sm-2" >
 						<span>{{sandersDelegates()}}</span>
 					</div>
 				</div>
-				<div>
-					<label for="uncommitted">Uncommitted</label>
-					<div>
+				<div class="row">
+					<label class="col-sm-2" for="uncommitted">Uncommitted</label>
+					<div class="col-sm-2">
 						<span>{{uncommitted()}}</span>
 					</div>
 					<div>
-						<span>{{uncommittedDelegates()}}</span>
+						<span class="col-sm-2">{{uncommittedDelegates()}}</span>
 					</div>
 				</div>
 			`
