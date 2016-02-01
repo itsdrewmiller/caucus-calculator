@@ -11,13 +11,13 @@
 				'<div class="row form-group">' +
 					'<label class="col-sm-3 form-control-label" for="delegates">Total Delegates</label>' +
 					'<div class="col-sm-3">' +
-						'<input class="form-control" type="phone" id="delegates" [(ngModel)]="delegates" />' +
+						'<input class="form-control" type="tel" id="delegates" [(ngModel)]="delegates" />' +
 					'</div>' +
 				'</div>' +
 				'<div class="row form-group">' +
 				'	<label class="col-sm-3 form-control-label" for="attendees">All Attendees</label>' +
 				'	<div class="col-sm-3">' +
-				'		<input class="form-control" type="phone" id="attendees" [(ngModel)]="attendees" />' +
+				'		<input class="form-control" type="tel" id="attendees" [(ngModel)]="attendees" />' +
 				'	</div>' +
 				'	<div class="col-sm-3">' +
 				'		<span>{{viability()}} needed for viability</span>' +
@@ -26,7 +26,7 @@
 				'<div class="row form-group">' +
 				'	<label class="col-sm-3 form-control-label" for="clinton">Clinton Preference Group</label>' +
 				'	<div class="col-sm-3">' +
-				'		<input class="form-control" type="phone" id="clinton" [(ngModel)]="clinton" />' +
+				'		<input class="form-control" type="tel" id="clinton" [(ngModel)]="clinton" />' +
 				'	</div>' +
 				'	<div class="col-sm-3">' +
 				'		<span>{{clintonDelegates()}} Delegates earned</span>' +
@@ -35,7 +35,7 @@
 				'<div class="row form-group">' +
 				'	<label class="col-sm-3 form-control-label" for="omalley">O&#39;Malley Preference Group</label>' +
 				'	<div class="col-sm-3">' +
-				'		<input class="form-control" type="phone" id="omalley" [(ngModel)]="omalley" />' +
+				'		<input class="form-control" type="tel" id="omalley" [(ngModel)]="omalley" />' +
 				'	</div>' +
 				'	<div class="col-sm-3">' +
 				'		<span>{{omalleyDelegates()}} Delegates earned</span>' +
@@ -44,7 +44,7 @@
 				'<div class="row form-group">' +
 				'	<label class="col-sm-3 form-control-label" for="sanders">Sanders Preference Group</label>' +
 				'	<div class="col-sm-3" >' +
-				'		<input class="form-control" type="phone" id="sanders" [(ngModel)]="sanders" />' +
+				'		<input class="form-control" type="tel" id="sanders" [(ngModel)]="sanders" />' +
 				'	</div>' +
 				'	<div class="col-sm-3" >' +
 				'		<span>{{sandersDelegates()}} Delegates earned</span>' +
@@ -72,16 +72,16 @@
 				that.sanders = 25;
 
 				that.uncommitted = function() {
-					return (parseInt(that.attendees) || 0) - (parseInt(that.clinton) || 0) - (parseInt(that.omalley) || 0) - (parseInt(that.sanders) || 0);
+					return (parseInt(that.attendees,10) || 0) - (parseInt(that.clinton,10) || 0) - (parseInt(that.omalley,10) || 0) - (parseInt(that.sanders,10) || 0);
 				};
 
 				var calcDelegates = function() {
-					return app.calcDelegates(parseInt(that.delegates), parseInt(that.attendees), 
+					return app.calcDelegates(parseInt(that.delegates,10), parseInt(that.attendees,10), 
 						[
-							parseInt(that.clinton),
-							parseInt(that.omalley),
-							parseInt(that.sanders),
-							parseInt(that.uncommitted())
+							parseInt(that.clinton,10),
+							parseInt(that.omalley,10),
+							parseInt(that.sanders,10),
+							parseInt(that.uncommitted(),10)
 						]);
 				}
 
@@ -102,7 +102,7 @@
 				}
 
 				that.viability = function() {
-					return app.calcViability(parseInt(that.delegates), parseInt(that.attendees));
+					return app.calcViability(parseInt(that.delegates,10), parseInt(that.attendees,10));
 				}
 			}
 		});
